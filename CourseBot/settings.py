@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "bot"
+    "bot",
+    "rangefilter"
 ]
 
 MIDDLEWARE = [
@@ -135,7 +136,7 @@ BOT_TOKEN = '7188089434:AAFBMQz7bQbjG7Q7dkETWU6PCeERkkf4i5Q'
 
 
 # URL-адреса веб-хука для отримання оновлень від Telegram
-TELEGRAM_WEBHOOK_URL = 'https://4458-5-199-233-198.ngrok-free.app/telegram_webhook/'  # Підставте вашу URL-адресу
+TELEGRAM_WEBHOOK_URL = 'https://ccc6-185-42-130-20.ngrok-free.app/telegram_webhook/'  # Підставте вашу URL-адресу
 
 # Встановлення налаштувань для використання веб-хука
 WEBHOOK_SETTINGS = {

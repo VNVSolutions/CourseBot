@@ -64,8 +64,9 @@ class Interview(models.Model):
 
 
 class Contact(models.Model):
-    user = models.CharField(max_length=100)
+    user = models.CharField(verbose_name="Користувач", max_length=100)
     contact = models.TextField(verbose_name="Контакти", null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Text: {self.contact}"
@@ -75,11 +76,12 @@ class Contact(models.Model):
 
 
 class Resume(models.Model):
-    user = models.CharField(max_length=100)  # Припускаючи, що це поле для імені користувача
+    user = models.CharField(max_length=100)
     resume_file = models.FileField(upload_to='resumes/', blank=True)
     preference = models.TextField(verbose_name="Найголовніше у пошуку роботи", null=True)
     skills = models.TextField(verbose_name="Навички", null=True)
     tongue = models.TextField(verbose_name="Володіння мовами", null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"User: {self.user}, Job Preference: {self.preference}, Skills: {self.skills}, Tongue: {self.tongue}"
