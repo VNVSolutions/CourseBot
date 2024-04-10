@@ -43,12 +43,12 @@ def start(message):
         bot.send_message(message.chat.id, start_obj.text, reply_markup=create_reply_markup())
 
 def create_reply_markup():
-    markup = ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-    send_resume = KeyboardButton('Надіслати резюме для опрацювання')
-    work_market = KeyboardButton('Дізнатися що відбувається на ринку праці')
-    interview = KeyboardButton('Лайфхаки, як підготуватися до співбесіди ')
-    contact = KeyboardButton('Зв\'язатися з рекрутером')
-    why_we = KeyboardButton('Чому ми?')
+    markup = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    send_resume = KeyboardButton('👨‍💻 Надіслати резюме ')
+    work_market = KeyboardButton('📊 Аналіз ринку праці ')
+    interview = KeyboardButton('📌 Лайфхаки для співбесіди  ')
+    contact = KeyboardButton('👋 Зв\'язатися з рекрутером ')
+    why_we = KeyboardButton('🤔 Чому ми? 🤔')
     markup.add(send_resume, work_market, interview, contact, why_we)
     return markup
 
@@ -74,7 +74,7 @@ def handle_message(message):
             bot.send_message(message.chat.id, why_we.text)
 
 
-@bot.message_handler(content_types=['document'])
+@bot.message_handler(content_types=['document', 'photo'])
 def handle_resume(message):
     if message.document:
         file_info = bot.get_file(message.document.file_id)
@@ -102,6 +102,10 @@ def handle_resume(message):
         bot.send_message(message.chat.id, "Дякую! Поки опрацьовую, вкажи, що найголовніше для тебе в пошуках роботи",
                          reply_markup=markup)
         bot.register_next_step_handler(message, handle_resume_options, user_name, file_path, [], button_options)
+    else:
+        bot.send_message(message.chat.id, "Надішліть будь ласка у вигляді файлу")
+
+
 
 
 def handle_resume_options(message, user_name, file_path, selected_options, button_options):
