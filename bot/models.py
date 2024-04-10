@@ -45,6 +45,7 @@ class WhyWe(models.Model):
 
 class LaborMarket(models.Model):
     text = models.TextField(verbose_name="Ринок праці", null=True)
+    img = models.ImageField(upload_to='resumes/', blank=True)
 
     def __str__(self):
         return f"Text: {self.text}"
@@ -55,6 +56,7 @@ class LaborMarket(models.Model):
 
 class Interview(models.Model):
     text = models.TextField(verbose_name="Підготовка до співбесіди", null=True)
+    img = models.ImageField(upload_to='resumes/', blank=True)
 
     def __str__(self):
         return f"Text: {self.text}"

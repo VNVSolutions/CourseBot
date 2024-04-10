@@ -46,7 +46,7 @@ def create_reply_markup():
     markup = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     send_resume = KeyboardButton('👨‍💻 Надіслати резюме ')
     work_market = KeyboardButton('📊 Аналіз ринку праці ')
-    interview = KeyboardButton('📌 Лайфхаки для співбесіди  ')
+    interview = KeyboardButton('📌 Лайфхаки для співбесіди ')
     contact = KeyboardButton('👋 Зв\'язатися з рекрутером ')
     why_we = KeyboardButton('🤔 Чому ми? 🤔')
     markup.add(send_resume, work_market, interview, contact, why_we)
@@ -55,20 +55,35 @@ def create_reply_markup():
 
 @bot.message_handler(func=lambda message: True)
 def handle_message(message):
-    if message.text == 'Надіслати резюме для опрацювання':
+    if message.text == '👨‍💻 Надіслати резюме':
         bot.send_message(message.chat.id, "Надішліть будь ласка своє резюме")
-    elif message.text == 'Дізнатися що відбувається на ринку праці':
+    elif message.text == '📊 Аналіз ринку праці':
         labor_market = LaborMarket.objects.first()
         if labor_market:
-            bot.send_message(message.chat.id, labor_market.text)
-    elif message.text == 'Лайфхаки, як підготуватися до співбесіди':
+            if labor_market.img:  # Якщо є фото
+                file_path = os.path.join(settings.MEDIA_ROOT, labor_market.img.name)
+                with open(file_path, 'rb') as file:
+                    bot.send_photo(message.chat.id, file)
+                    if labor_market.text:  # Якщо є текст
+                        bot.send_message(message.chat.id, labor_market.text)
+            else:  # Якщо немає фото, надішліть тільки текст
+                bot.send_message(message.chat.id, labor_market.text)
+    elif message.text == '📌 Лайфхаки для співбесіди':
         interview = Interview.objects.first()
         if interview:
-            bot.send_message(message.chat.id, interview.text)
-    elif message.text == 'Зв\'язатися з рекрутером':
+            if interview.img:  # Якщо є фото
+                file_path = os.path.join(settings.MEDIA_ROOT, interview.img.name)
+                with open(file_path, 'rb') as file:
+                    bot.send_photo(message.chat.id, file)
+                    if interview.text:  # Якщо є текст
+                        bot.send_message(message.chat.id, interview.text)
+            else:  # Якщо немає фото, надішліть тільки текст
+                bot.send_message(message.chat.id, interview.text)
+
+    elif message.text == '👋 Зв\'язатися з рекрутером':
         bot.send_message(message.chat.id, "Надішліть свій контакт")
         bot.register_next_step_handler(message, handle_contact)
-    elif message.text == 'Чому ми?':
+    elif message.text == '🤔 Чому ми? 🤔':
         why_we = WhyWe.objects.first()
         if why_we:
             bot.send_message(message.chat.id, why_we.text)
