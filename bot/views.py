@@ -40,6 +40,8 @@ def start(message):
         user = UserProfile.objects.create(telegram_id=chat_id, username=name)
 
     if start_obj:
+        print("Виклик функції bot.send_photo")
+        print(bot.send_message)
         bot.send_message(message.chat.id, start_obj.text, reply_markup=create_reply_markup())
 
 def create_reply_markup():
@@ -50,6 +52,8 @@ def create_reply_markup():
     contact = KeyboardButton('👋 Зв\'язатися з рекрутером ')
     why_we = KeyboardButton('🤔 Чому ми? 🤔')
     markup.add(send_resume, work_market, interview, contact, why_we)
+    print("Кнопки меню markup")
+    print(markup)
     return markup
 
 
